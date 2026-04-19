@@ -46,9 +46,9 @@ fn_dl_steamcmd() {
 		validate="validate"
 	fi
 
-	# steamcmdcommand can contain multiple arguments; treat it as an argv array.
-	steamcmdcommandarray=()
-	read -r -a steamcmdcommandarray <<< "${steamcmdcommand}"
+	# Wrap steamcmdcommand as a single-element array to avoid word-splitting
+	# on paths/commands that should not be tokenised.
+	steamcmdcommandarray=("${steamcmdcommand}")
 	unbuffercommand=()
 	if [ -n "${unbuffer}" ]; then
 		unbuffercommand=("${unbuffer}")
