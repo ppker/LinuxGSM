@@ -81,15 +81,17 @@ jobs:
             let triage;
             try {
               const res = await fetch(
-                'https://models.inference.ai.azure.com/chat/completions',
+                `https://models.github.ai/orgs/${owner}/inference/chat/completions`,
                 {
                   method: 'POST',
                   headers: {
+                    'Accept': 'application/vnd.github+json',
                     'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+                    'X-GitHub-Api-Version': '2026-03-10',
                     'Content-Type': 'application/json',
                   },
                   body: JSON.stringify({
-                    model: 'gpt-4o-mini',
+                    model: 'openai/gpt-4.1-mini',
                     temperature: 0.1,
                     max_tokens: 400,
                     messages: [
