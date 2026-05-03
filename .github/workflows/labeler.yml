@@ -53,6 +53,6 @@ jobs:
     steps:
       - name: Is Sponsor Label
         if: github.event.action == 'opened'
-        uses: JasonEtco/is-sponsor-label-action@v3
+        uses: JasonEtco/is-sponsor-label-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
