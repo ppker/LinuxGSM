@@ -5,6 +5,11 @@ on:
       - opened
       - edited
 
+# Note: This workflow uses GitHub Models which may not be available
+# in all environments. If GitHub Models API returns 401 or is unavailable,
+# the workflow will skip gracefully and the issue will still be processed
+# by other automation (labeler, etc.)
+
 permissions:
   issues: write
   contents: read
@@ -68,6 +73,10 @@ jobs:
             }
 
             // ── Call GitHub Models ────────────────────────────────────────
+            // Note: GitHub Models access may not be available in all environments.
+            // If the API returns 401 (Unauthorized), it means GitHub Models is not
+            // enabled for this repository or the current token lacks access.
+            // The workflow will gracefully skip AI triage and continue.
             let triage;
             try {
               const res = await fetch(
@@ -120,6 +129,8 @@ jobs:
                 }
               );
 
+              // GitHub Models may return 401 if not available for this repository.
+              // This is expected and not an error — the workflow simply skips AI triage.
               if (!res.ok) {
                 console.log(`GitHub Models returned ${res.status} — skipping AI triage.`);
                 return;
